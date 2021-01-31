@@ -1,3 +1,10 @@
-venv/
+## cache
 *.pyc
 __pycache__
+
+# environments
+.venv_u/
+venv/
+
+# private info
+my_settings.py
