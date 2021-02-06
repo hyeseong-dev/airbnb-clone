@@ -5,7 +5,7 @@
 {% endblock page_name %}
 
 {% block content %}
-
+    {{now}}
     {% for room in object_list %}
         <h1>{{room.name}} / ${{room.price}}</h1>
     {% endfor %}
