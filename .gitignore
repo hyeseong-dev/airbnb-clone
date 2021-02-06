@@ -1,0 +1,22 @@
+## cache
+*.pyc
+__pycache__
+
+# environments
+.venv_u/
+venv/
+airbnb_venv/
+.airbnb_venv/
+
+# private info
+my_settings.py
+
+# sqlite3
+db.sqlite3
+db.sqlite3~main
+
+# photo seed zip 
+photos_seed.zip
+
+# directory
+photos_seed/
