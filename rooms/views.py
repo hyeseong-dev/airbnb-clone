@@ -1,26 +1,21 @@
-from math             import ceil
-
-from django.shortcuts import render
-
-from rooms            import models
+from math                  import ceil
+from django.core.paginator import Paginator
+from django.shortcuts      import render
+from rooms                 import models
 
 def all_rooms(request):
-    page      = request.GET.get('page',1)
-    page      = int(page or 1)
+    page      = request.GET.get('page')
+    
+    room_list = models.Room.objects.all()
+    paginator = Paginator(room_list, 10)
+    rooms = paginator.get_page(page)
 
-    PAGE_SIZE = 10
-    limit     = PAGE_SIZE * page    # limit  = 
-    offset    = limit - PAGE_SIZE
-
-    rooms      = models.Room.objects.all()[offset:limit]
-    page_count = ceil(models.Room.objects.count()/PAGE_SIZE)
-
+    print(vars(rooms.paginator) )
     return render(
         request, 
         'rooms/homes.html', 
-        context={
-            'rooms'      : rooms,
-            'page'       : page,
-            'page_count' : page_count,
-            'page_range' : range(1, page_count),
-        },)
+        context = {
+            'rooms':rooms,
+        }
+        )
+
