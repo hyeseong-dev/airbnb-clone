@@ -1,8 +1,8 @@
-from django.db import models
-
+from django.db               import models
+from django.urls             import reverse
 from django_countries.fields import CountryField
 
-from core         import models as core_models
+from core                    import models as core_models
 
 
 class AbstractItem(core_models.TimeStampedModel):
@@ -111,6 +111,9 @@ class Room(core_models.TimeStampedModel):
         self.city = self.city.title() # str의 title() 메소드를 사용하여 각 단어의 첫글자를 대문자로 만듬
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse('rooms:detail', kwargs={'pk':self.pk})
+
     def total_rating(self):
         all_reviews   = self.reviews.all()
         total_sum     = sum([review.rating_average() for review in all_reviews])
@@ -121,5 +124,5 @@ class Room(core_models.TimeStampedModel):
         return 0
 
     class Meta:
-        db_table            = 'rooms'
+        db_table = 'rooms'
 
