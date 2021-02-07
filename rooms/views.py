@@ -1,4 +1,5 @@
 from django.utils          import timezone
+from django.shortcuts      import render, redirect
 from django.urls           import reverse
 from django.views.generic  import ListView, DetailView
 
@@ -26,3 +27,8 @@ class RoomDetail(DetailView):
     
     model = models.Room
 
+
+def search(request):
+    city = request.GET.get('city')
+    city = str.capitalize(city)
+    return render(request, 'rooms/search.html', context={'city':city})
