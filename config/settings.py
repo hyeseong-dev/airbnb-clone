@@ -13,7 +13,7 @@ print(BASE_DIR)
 SECRET_KEY = '8--bsi#!#suy(v9ijz@qg1-tmsdr_b4+!3%f3y9%&%dgos_%)2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
