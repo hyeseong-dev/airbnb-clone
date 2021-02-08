@@ -2,7 +2,7 @@ from django.utils          import timezone
 from django.shortcuts      import render, redirect
 from django.urls           import reverse
 from django.views.generic  import ListView, DetailView, View
-
+from django.core.paginator import Paginator
 from django_countries      import countries
 
 from rooms                 import models, forms
@@ -112,8 +112,13 @@ def search(request):
             for amenity in amenities   : filter_args["amenities"]        = amenity
             for facility in facilities : filter_args["facilities"]       = facility
 
-            rooms = models.Room.objects.filter(**filter_args)
+            qs = models.Room.objects.filter(**filter_args).order_by('-created')
+
+            paginator = Paginator(qs, 10, orphans=5)
+            page = request.GET.get('page',1)
+            rooms = paginator.get_page(page)
+            return render(request, 'rooms/search.html', {"form":form, "rooms": rooms})
+
     else:
         form = forms.SearchForm()
-
-    return render(request, 'rooms/search.html', {"form":form, "rooms": rooms})
+        return render(request, 'rooms/search.html', {"form":form})
