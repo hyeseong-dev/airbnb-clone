@@ -25,7 +25,7 @@
         Page {{rooms.number}} of {{rooms.paginator.num_pages}}
     
     {% if rooms.has_next  %}
-        <a href="?page={{rooms.next_page_number}}">Next</a>
+        <a href="?page={{rooms.next_page_number}}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}">Next</a>
     {% endif %}
     </h5>
 
