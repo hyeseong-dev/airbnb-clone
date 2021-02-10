@@ -1,3 +1,4 @@
+import os
 import my_settings
 from pathlib import Path
 
@@ -134,7 +135,7 @@ MEDIA_URL  = '/media/'
 
 # Email Configuration
 
-EMAIL_HOST = my_settings.EMAIL_HOST
-EMAIL_PORT = my_settings.EMAIL_PORT
-EMAIL_HOST_USER = my_settings.EMAIL_HOST_USER
-EMAIL_HOST_PASSWORD = my_settings.EMAIL_HOST_PASSWORD
+EMAIL_HOST          = os.environ.get('EMAIL_HOST')
+EMAIL_PORT          = os.environ.get('EMAIL_PORT')
+EMAIL_HOST_USER     = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')

@@ -3,6 +3,7 @@
 __pycache__
 
 # environments
+.env
 .venv_u/
 venv/
 airbnb_venv/
