@@ -3,7 +3,8 @@ from django.conf                import settings
 from django.contrib.auth.models import AbstractUser
 from django.db                  import models
 from django.core.mail           import send_mail
-
+from django.utils.html          import strip_tags
+from django.template.loader     import render_to_string
 
 class User(AbstractUser):
 
@@ -51,14 +52,18 @@ class User(AbstractUser):
         if self.email_verified is False:
             secret = uuid.uuid4().hex[:20] # 16진수 20개의 문자열을 생성함
             self.email_secret = secret
+            html_message = render_to_string(
+                "emails/verify_email.html", {"secret": secret}
+            )
             send_mail(
                 'Verify AirBnB Account', # 제목 부분
-                f"Verify Account, This Is Your Secret: {secret}", # 메시지, 바디에 해당
-                settings.EMAIL_FROM, # 누구로 부터온 이메일
-                [self.email], # 이메일 받는 사람
-                fail_silently=False, # 오류발생시 조용히 할거냐 말거냐?
+                strip_tags(html_message),
+                settings.EMAIL_FROM,
+                [self.email],
+                fail_silently=False,
+                html_message=html_message,
             )
-            print('여기까지 오긴하네')
+            self.save()
         return
     class Meta:
         db_table = 'users'
