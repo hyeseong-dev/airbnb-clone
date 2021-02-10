@@ -50,13 +50,13 @@ class User(AbstractUser):
 
     def verify_email(self):
         if self.email_verified is False:
-            secret = uuid.uuid4().hex[:20] # 16진수 20개의 문자열을 생성함
+            secret = uuid.uuid4().hex[:20]
             self.email_secret = secret
             html_message = render_to_string(
                 "emails/verify_email.html", {"secret": secret}
             )
             send_mail(
-                'Verify AirBnB Account', # 제목 부분
+                "Verify Airbnb Account",
                 strip_tags(html_message),
                 settings.EMAIL_FROM,
                 [self.email],
@@ -64,6 +64,6 @@ class User(AbstractUser):
                 html_message=html_message,
             )
             self.save()
-        return
+        return 
     class Meta:
         db_table = 'users'
