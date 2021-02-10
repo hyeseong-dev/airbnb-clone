@@ -1,5 +1,4 @@
-
-
+import my_settings
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -132,3 +131,10 @@ AUTH_USER_MODEL ='users.User'
 
 MEDIA_ROOT = BASE_DIR / 'uploads'
 MEDIA_URL  = '/media/'
+
+# Email Configuration
+
+EMAIL_HOST = my_settings.EMAIL_HOST
+EMAIL_PORT = my_settings.EMAIL_PORT
+EMAIL_HOST_USER = my_settings.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = my_settings.EMAIL_HOST_PASSWORD
