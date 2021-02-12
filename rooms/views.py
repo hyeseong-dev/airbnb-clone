@@ -1,7 +1,7 @@
 from django.utils          import timezone
 from django.shortcuts      import render, redirect
 from django.urls           import reverse
-from django.views.generic  import ListView, DetailView, View
+from django.views.generic  import ListView, DetailView, View, UpdateView
 from django.core.paginator import Paginator
 from django_countries      import countries
 
@@ -34,11 +34,8 @@ class RoomDetail(DetailView):
 class SearchView(View):
     def get(self,reqeust):
         country = request.GET.get('country')
-
         if country:
-
             form = forms.SearchForm(request.GET)
-
             if form.is_valid():
                 city         = form.cleaned_data.get('city')
                 country      = form.cleaned_data.get('country')
@@ -54,7 +51,6 @@ class SearchView(View):
                 facilities   = form.cleaned_data.get('facilities')
 
                 filter_args = {}
-
                 filter_args["country"] = country
                 if city != "Anywhere"      : filter_args["city__startswith"] = city
                 if room_type    is not None: filter_args["room_type"]        = room_type
@@ -71,18 +67,14 @@ class SearchView(View):
                 rooms = models.Room.objects.filter(**filter_args)
         else:
             form = forms.SearchForm()
-
         return render(request, 'rooms/search.html', {"form":form, "rooms": rooms})
 
 
 def search(request):
-
     country = request.GET.get('country')
 
     if country:
-
         form = forms.SearchForm(request.GET)
-
         if form.is_valid():
             city         = form.cleaned_data.get('city')
             country      = form.cleaned_data.get('country')
@@ -98,7 +90,6 @@ def search(request):
             facilities   = form.cleaned_data.get('facilities')
 
             filter_args = {}
-
             filter_args["country"] = country
             if city != "Anywhere"      : filter_args["city__startswith"] = city
             if room_type    is not None: filter_args["room_type"]        = room_type
@@ -113,7 +104,6 @@ def search(request):
             for facility in facilities : filter_args["facilities"]       = facility
 
             qs = models.Room.objects.filter(**filter_args).order_by('-created')
-
             paginator = Paginator(qs, 10, orphans=5)
             page = request.GET.get('page',1)
             rooms = paginator.get_page(page)
@@ -122,3 +112,28 @@ def search(request):
     else:
         form = forms.SearchForm()
         return render(request, 'rooms/search.html', {"form":form})
+
+
+class EditRoomView(UpdateView):
+    model = models.Room
+    template_name = "rooms/room_edit.html"
+    fields = (
+        'name',            
+        'description',     
+        'country',         
+        'city',            
+        'price',           
+        'address',         
+        'guests',          
+        'beds',            
+        'baths',           
+        'bedrooms',        
+        'check_in',        
+        'check_out',       
+        'instant_book',    
+        'host',            
+        'room_type',       
+        'amenities',       
+        'facilities',      
+        'house_rules',     
+    )
