@@ -102,6 +102,9 @@ class Room(core_models.TimeStampedModel):
     amenities       = models.ManyToManyField('Amenity', blank=True, related_name='rooms')
     facilities      = models.ManyToManyField('Facility', blank=True, related_name='rooms')
     house_rules     = models.ManyToManyField('HouseRules', blank=True, related_name='rooms')
+    
+    class Meta: 
+        db_table = 'rooms'
 
     def __str__(self):
         return self.name
@@ -127,6 +130,9 @@ class Room(core_models.TimeStampedModel):
         photo, = self.photos.all()[:1]
         return photo.file.url
 
-    class Meta:
-        db_table = 'rooms'
+    def get_next_four_photos(self):
+        photos = self.photos.all()[1:5]
+        return photos
+        
+
 
