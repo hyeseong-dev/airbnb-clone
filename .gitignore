@@ -22,3 +22,5 @@ photos_seed.zip
 # directory
 photos_seed/
 
+# node 
+node_modules/

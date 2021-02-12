@@ -116,12 +116,16 @@ class Room(core_models.TimeStampedModel):
 
     def total_rating(self):
         all_reviews   = self.reviews.all()
-        total_sum     = sum([review.rating_average() for review in all_reviews])
-        
-        if all_reviews.exists():
-            total_average = total_sum / all_reviews.count() 
-            return round(total_average, 2)
+        all_ratings = 0
+        if len(all_reviews) > 0:
+            for review in all_reviews:
+                all_ratings += review.rating_average()
+            return round(all_ratings / len(all_reviews), 2)
         return 0
+
+    def first_photo(self):
+        photo, = self.photos.all()[:1]
+        return photo.file.url
 
     class Meta:
         db_table = 'rooms'
