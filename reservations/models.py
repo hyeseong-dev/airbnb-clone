@@ -2,6 +2,16 @@ from django.db      import models
 from django.utils   import timezone
 from core           import models as core_models
 
+class BookedDay(core_models.TimeStampedModel):
+    day         = models.DateField()
+    reservation = models.ForeignKey("Reservation", on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'book_day'        
+        verbose_name = "booked Day"
+        verbose_name_plural = "booked Days"
+
+
 class Reservation(core_models.TimeStampedModel):
 
     """ Reservation Model Definition"""
@@ -24,11 +34,15 @@ class Reservation(core_models.TimeStampedModel):
     guest     = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='reservations')
     room      = models.ForeignKey('rooms.Room', on_delete=models.CASCADE, related_name='reservations')
 
+    class Meta:
+        db_table = 'reservations'
+
     def __str__(self):
         return f"{self.room} - {self.check_in}"
         
     def in_progress(self):
         now = timezone.now().date()
+    
         return self.check_in <= now <= self.check_out
     
     in_progress.boolean = True
@@ -39,5 +53,12 @@ class Reservation(core_models.TimeStampedModel):
     
     is_finished.boolean = True
 
-    class Meta:
-        db_table = 'reservations'
+    def save(self, *args, **kwargs):
+        if True:
+            start = self.check_in
+            end = self.check_out
+            difference = end - start
+            existing_booked_day = BookedDay.objects.filter(
+                day__range=(start, end)
+            ).exists()
+        return super().save(*args, **kwargs)
