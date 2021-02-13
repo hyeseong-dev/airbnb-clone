@@ -37,11 +37,6 @@ class Command(BaseCommand):
             list_model = list_models.List.objects.get(pk=pk)
             
             to_add     = rooms[random.randint(0,5): random.randint(6,30)] # 랜덤하게 방 인스턴스를 돌려줌
-            # print(to_add)
-            # print('*'*30)
-            # print(*to_add)
-
-            # print('반가워')
 
             list_model.rooms.add(*to_add) # 결속 되어 있는 쿼리셋을 확~ 풀어버림 그럼 내뷰 value만 쏙 나옴
             # 참고 할 만한 사이트 https://mingrammer.com/understanding-the-asterisk-of-python/

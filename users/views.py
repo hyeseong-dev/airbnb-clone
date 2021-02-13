@@ -106,8 +106,6 @@ def github_callback(request):
                     },
                 )
                 profile_json = profile_request.json()
-                # pprint('안녕',profile_json)
-                pprint(profile_json)
                 username = profile_json.get("login", None)
                 if username is not None:
                     name = profile_json.get("name",)
