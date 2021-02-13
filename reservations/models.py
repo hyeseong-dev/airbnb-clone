@@ -2,6 +2,7 @@ import datetime
 from django.db      import models
 from django.utils   import timezone
 from core           import models as core_models
+from reservations   import managers
 
 class BookedDay(core_models.TimeStampedModel):
     day         = models.DateField()
@@ -37,6 +38,7 @@ class Reservation(core_models.TimeStampedModel):
     check_out = models.DateField()
     guest     = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='reservations')
     room      = models.ForeignKey('rooms.Room', on_delete=models.CASCADE, related_name='reservations')
+    objects   = managers.CustomReservationManager()
 
     class Meta:
         db_table = 'reservations'
