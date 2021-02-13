@@ -8,6 +8,7 @@ class Day:
         self.past = past
         self.month = month
         self.year = year
+        
     def __str__(self):
         return str(self.number)
 
@@ -45,8 +46,8 @@ class Calendar(calendar.Calendar):
                 if month == self.month:
                     if day <= today:
                         past = True
-                new_day = Day(day, past)
-                days.append(number=day, past=past, month=self.month, year=self.year)
+                new_day = Day(number=day, past=past, month=self.month, year=self.year)
+                days.append(new_day)
         return days
 
     def get_month(self):

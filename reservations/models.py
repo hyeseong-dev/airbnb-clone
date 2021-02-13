@@ -63,6 +63,7 @@ class Reservation(core_models.TimeStampedModel):
             end = self.check_out
             difference = end - start
             existing_booked_day = BookedDay.objects.filter(
+                reservation__room=self.room,
                 day__range=(start, end)
             ).exists()
 
