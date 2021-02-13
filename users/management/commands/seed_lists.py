@@ -21,14 +21,14 @@ class Command(BaseCommand):
         number = options.get('number')
         seeder = Seed.seeder()
 
-        all_users = user_models.User.objects.all()
+        all_users = [i for i in user_models.User.objects.all()]
         rooms     = room_models.Room.objects.all()
 
         seeder.add_entity(
             list_models.List, 
             number,
             {
-            "user" : lambda x: random.choice(all_users),
+            "user" : next(all_users),
             })
 
         created_rooms = seeder.execute()

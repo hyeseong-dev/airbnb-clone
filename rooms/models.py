@@ -73,7 +73,7 @@ class Photo(core_models.TimeStampedModel):
 
     caption = models.CharField(max_length=80)
     file    = models.ImageField(upload_to='room_photos')
-    room    = models.ForeignKey('Room', on_delete=models.CASCADE, related_name='photos')
+    room    = models.ForeignKey('Room', on_delete=models.CASCADE, related_name='photos', null=True)
 
     def __str__(self):
         return self.caption
@@ -98,11 +98,11 @@ class Room(core_models.TimeStampedModel):
     check_in        = models.TimeField()                           # 0~24시간 표기를 위함
     check_out       = models.TimeField()
     instant_book    = models.BooleanField(default=False)   # 즉시 예약 가능 유무
-    host            = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='rooms')
-    room_type       = models.ForeignKey('RoomType', on_delete=models.SET_NULL, null=True, related_name='rooms')
-    amenities       = models.ManyToManyField('Amenity', blank=True, related_name='rooms')
-    facilities      = models.ManyToManyField('Facility', blank=True, related_name='rooms')
-    house_rules     = models.ManyToManyField('HouseRules', blank=True, related_name='rooms')
+    host            = models.ForeignKey('users.User',       on_delete=models.CASCADE, related_name='rooms', null=True)
+    room_type       = models.ForeignKey('RoomType',         on_delete=models.SET_NULL, null=True, related_name='rooms')
+    amenities       = models.ManyToManyField('Amenity',     blank=True, related_name='rooms')
+    facilities      = models.ManyToManyField('Facility',    blank=True, related_name='rooms')
+    house_rules     = models.ManyToManyField('HouseRules',  blank=True, related_name='rooms')
     
     class Meta: 
         db_table = 'rooms'

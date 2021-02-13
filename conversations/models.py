@@ -30,8 +30,8 @@ class Conversation(core_models.TimeStampedModel):
 class Message(core_models.TimeStampedModel):
 
     message      = models.TextField()
-    user         = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='messages')
-    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
+    user         = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='messages',null=True)
+    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages',null=True)
 
     def __str__(self):
         return f"{self.user} says: {self.message}"
